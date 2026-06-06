@@ -1,0 +1,66 @@
+Document 1: ZyLabs Overview
+ZyLabs helps B2B sales teams execute deal engineering at scale.
+The platform identifies accounts showing buying intent, maps decision makers, researches company initiatives, uncovers relevant business signals, and helps create highly personalized outreach.
+Key capabilities:
+Account research
+Stakeholder discovery
+Buying signal detection
+Personalized outreach preparation
+Deal intelligence generation
+---
+Document 2: ICP Definition
+Ideal customers typically have:
+50 to 5000 employees
+Dedicated outbound sales teams
+B2B sales motion
+Average contract value above $10,000
+Industries:
+SaaS
+Cybersecurity
+FinTech
+Cloud Infrastructure
+Developer Tools
+Common buyers:
+VP Sales
+CRO
+Revenue Operations
+Head of Business Development
+---
+Document 3: Buying Signals
+Strong buying signals include:
+Recent funding announcement
+New executive hire
+Rapid hiring growth
+Geographic expansion
+Product launch
+New sales leadership
+Weak signals include:
+Generic social media activity
+Website design updates
+---
+Document 4: Stakeholder Framework
+Every account should be analyzed using the following stakeholder categories:
+Champion
+Economic Buyer
+Technical Evaluator
+Decision Maker
+Influencer
+---
+Document 5: Outreach Personalization
+Effective outreach should reference:
+Company initiatives
+Recent business events
+Industry trends
+Stakeholder responsibilities
+Avoid generic personalization.
+Good personalization connects business events to measurable business outcomes.
+---
+Sample Account Data
+json {   "account_name": "Acme Cyber",   "industry": "Cybersecurity",   "employees": 450,   "recent_event": "Raised $25M Series B",   "headquarters": "Austin",   "growth_signal": "Hiring SDRs and Account Executives" }
+json {   "account_name": "CloudForge",   "industry": "Developer Tools",   "employees": 900,   "recent_event": "Expanded into Europe",   "headquarters": "San Francisco",   "growth_signal": "Opened London office" }
+json {   "account_name": "FinEdge",   "industry": "FinTech",   "employees": 1200,   "recent_event": "Hired new CRO",   "headquarters": "New York",   "growth_signal": "Growing enterprise sales team" }
+---
+Sample Stakeholder Data
+json {   "name": "Sarah Johnson",   "role": "VP Sales",   "stakeholder_type": "Economic Buyer" }
+json {   "name": "John Smith",   "role": "Director Revenue Operations",   "stakeholder_type": "Champion" }
+---
