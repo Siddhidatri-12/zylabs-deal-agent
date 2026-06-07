@@ -2,15 +2,16 @@
 
 An AI-powered Deal Intelligence Agent that combines:
 
-- Retrieval Augmented Generation (RAG)
-- Long-Term Memory
-- Knowledge Base Search
-- Deal Context Tracking
-- Memory Dashboard
-- FastAPI Backend
-- Streamlit Frontend
+* Retrieval Augmented Generation (RAG)
+* Long-Term Memory
+* Knowledge Base Search
+* Deal Context Tracking
+* Memory Dashboard
+* FastAPI Backend
+* Streamlit Frontend
+* Gemini 2.5 Flash
 
-The system helps sales teams retrieve company information, remember important deal details, track stakeholders, and provide contextual responses across conversations.
+The system helps sales teams retrieve company information, remember important deal details, track stakeholders, and generate context-aware responses across conversations.
 
 ---
 
@@ -22,10 +23,10 @@ Retrieves relevant information from a Qdrant vector database using semantic sear
 
 Examples:
 
-- Company profiles
-- Industry insights
-- Deal intelligence
-- Customer information
+* Company profiles
+* Industry insights
+* Deal intelligence
+* Customer information
 
 ---
 
@@ -35,14 +36,14 @@ The agent automatically remembers important information shared by users.
 
 Supported memory types:
 
-- Account
-- Stakeholder
-- Pain Point
-- Buying Signal
-- Preference
-- Deal Context
+* Account
+* Stakeholder
+* Pain Point
+* Buying Signal
+* Preference
+* Deal Context
 
-Examples:
+Example:
 
 User:
 
@@ -87,12 +88,12 @@ View all stored memories in real time through the Streamlit interface.
 
 Information displayed:
 
-- Memory Type
-- Value
-- Importance Score
-- Reason
-- Created Timestamp
-- Updated Timestamp
+* Memory Type
+* Value
+* Importance Score
+* Reason
+* Created Timestamp
+* Updated Timestamp
 
 ---
 
@@ -103,18 +104,17 @@ Search memories by type.
 Examples:
 
 ```text
-Find account memories
-```
-
-```text
-Find stakeholder memories
+Account
+Stakeholder
+Pain Point
+Buying Signal
 ```
 
 ---
 
 ## Memory Deletion
 
-Delete memories using API endpoints.
+Delete memories directly from the interface or via API endpoints.
 
 Example:
 
@@ -131,7 +131,7 @@ The agent combines:
 1. Long-Term Memory
 2. Retrieved Knowledge Base Context
 
-to generate more relevant answers.
+to generate more relevant responses.
 
 Memory is prioritized whenever applicable.
 
@@ -155,7 +155,7 @@ Memory is prioritized whenever applicable.
         │                          │
         └─────────────┬────────────┘
                       ▼
-                    Ollama
+               Gemini 2.5 Flash
                       │
                       ▼
                  AI Response
@@ -163,34 +163,44 @@ Memory is prioritized whenever applicable.
 
 ---
 
+# Key Design Decisions
+
+* Gemini 2.5 Flash was selected for fast and accurate response generation.
+* Qdrant was used for semantic vector retrieval.
+* SQLite was chosen for lightweight persistent memory storage.
+* Memory updates prevent duplicate account records.
+* Explainable memories store importance scores and reasons for transparency.
+
+---
+
 # Tech Stack
 
 ## Backend
 
-- Python
-- FastAPI
+* Python
+* FastAPI
 
 ## Frontend
 
-- Streamlit
+* Streamlit
 
 ## Vector Database
 
-- Qdrant
+* Qdrant
 
 ## Embeddings
 
-- Sentence Transformers
-- all-MiniLM-L6-v2
+* Sentence Transformers
+* all-MiniLM-L6-v2
 
 ## LLM
 
-- Ollama
-- Llama 3.2
+* Google Gemini 2.5 Flash
+* Google AI Studio API
 
 ## Database
 
-- SQLite
+* SQLite
 
 ---
 
@@ -200,23 +210,20 @@ Memory is prioritized whenever applicable.
 zylabs-deal-agent/
 │
 ├── backend/
-│   ├── main.py
+│   ├── __init__.py
 │   ├── chat.py
-│   ├── rag.py
+│   ├── check_qdrant.py
 │   ├── llm.py
+│   ├── main.py
 │   ├── memory.py
 │   ├── memory_extractor.py
-│   ├── check_qdrant.py
-│   └── ingest.py
-│
-├── database/
-│   └── memories.db
+│   ├── qdrant_db.py
+│   └── rag.py
 │
 ├── streamlit.py
-│
 ├── requirements.txt
-│
-└── README.md
+├── README.md
+└── .gitignore
 ```
 
 ---
@@ -248,37 +255,19 @@ docker run -p 6333:6333 qdrant/qdrant
 
 ---
 
-## 4. Create Knowledge Base
+## 4. Configure Gemini API
 
-Run ingestion script:
+Create a `.env` file in the project root:
 
-```bash
-python backend/ingest.py
+```env
+GEMINI_API_KEY=your_api_key_here
 ```
+
+Generate your API key from Google AI Studio.
 
 ---
 
-## 5. Start Ollama
-
-```bash
-ollama serve
-```
-
-Verify model:
-
-```bash
-ollama list
-```
-
-Expected:
-
-```text
-llama3.2:3b
-```
-
----
-
-## 6. Start FastAPI
+## 5. Start FastAPI
 
 ```bash
 uvicorn backend.main:app --reload
@@ -298,7 +287,7 @@ http://127.0.0.1:8000/docs
 
 ---
 
-## 7. Start Streamlit
+## 6. Start Streamlit
 
 ```bash
 streamlit run streamlit.py
@@ -404,16 +393,19 @@ You are currently working on Acme Cyber.
 
 # Future Improvements
 
-- Memory Ranking
-- Memory Expiry
-- Conversation History
-- User Authentication
-- Multi-Account Support
-- Semantic Memory Search
-- Feedback Loop
-- CRM Integration
-- Salesforce Integration
-- HubSpot Integration
+* Memory Ranking
+* Memory Expiry
+* Conversation History
+* User Authentication
+* Multi-Account Support
+* Semantic Memory Search
+* Feedback Loop
+* CRM Integration
+* Salesforce Integration
+* HubSpot Integration
+* Gemini Function Calling
+* Hybrid Search (Vector + Keyword)
+* Multi-Agent Deal Analysis
 
 ---
 
@@ -435,7 +427,7 @@ You are currently working on Acme Cyber.
 
 ✅ Streamlit Frontend
 
-✅ LLM Integration
+✅ Gemini 2.5 Flash Integration
 
 ✅ Context-Aware Responses
 
