@@ -1,27 +1,50 @@
 import json
 import re
-from ollama import chat
+import google.generativeai as genai
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+genai.configure(
+    api_key=os.getenv("GEMINI_API_KEY")
+)
+
+model = genai.GenerativeModel(
+    "gemini-2.5-flash"
+)
 
 
 def extract_memory(user_message):
 
-    # Detect account mentions like:
-    # "I'm working on Acme Cyber"
-    # "Actually I'm working CloudForge now"
+    # ==========================
+    # ACCOUNT DETECTION
+    # ==========================
 
-    account_match = re.search(
-        r"(?:working on|working)\s+([A-Z][A-Za-z0-9\s&-]+)",
-        user_message
-    )
+    account_patterns = [
 
-    if account_match:
+        r"working on\s+([A-Z][A-Za-z0-9&-]*(?:\s+[A-Z][A-Za-z0-9&-]*)*)",
 
-        return {
-            "memory_type": "account",
-            "value": account_match.group(1).strip(),
-            "importance": 0.95,
-            "reason": "Current active account"
-        }
+        r"working\s+([A-Z][A-Za-z0-9&-]*(?:\s+[A-Z][A-Za-z0-9&-]*)*)",
+
+        r"account is\s+([A-Z][A-Za-z0-9&-]*(?:\s+[A-Z][A-Za-z0-9&-]*)*)"
+    ]
+
+    for pattern in account_patterns:
+
+        match = re.search(
+            pattern,
+            user_message
+        )
+
+        if match:
+
+            return {
+                "memory_type": "account",
+                "value": match.group(1).strip(),
+                "importance": 0.95,
+                "reason": "Current active account"
+            }
 
     prompt = f"""
 You are a memory extraction system.
@@ -49,23 +72,17 @@ Message:
 
     try:
 
-        response = chat(
-            model="llama3.2:3b",
-            messages=[
-                {
-                    "role": "user",
-                    "content": prompt
-                }
-            ]
+        response = model.generate_content(
+            prompt
         )
 
-        response_text = response["message"]["content"]
+        response_text = response.text
 
         print("\nRAW RESPONSE:\n")
         print(response_text)
 
         match = re.search(
-            r"\{.*\}",
+            r"\{.*?\}",
             response_text,
             re.DOTALL
         )
